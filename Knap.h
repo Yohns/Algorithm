@@ -24,7 +24,7 @@ public:
 private:
 	void init();
 	int Bound(int i);
-	void Backtrack(int i, int isLeft);
+	void Backtrack(int i);
 	void sortGoods(int * v, int * w, int n);
 	int c;     // capacity
 	int n;       // amount
@@ -92,7 +92,7 @@ int Knap::Bound(int i)
 	return b;
 }
 
-void Knap::Backtrack(int i, int isLeft)
+void Knap::Backtrack(int i)
 {
 	if(i >= n)   // reach leave
 	{
@@ -106,14 +106,14 @@ void Knap::Backtrack(int i, int isLeft)
 		cw += w[i];
 		cv += v[i];
 		x[indexx[i]] = 1;  
-		Backtrack(i + 1, 1);
+		Backtrack(i + 1);
 		cw -= w[i];
 		cv -= v[i];
 	}
 	if(Bound(i + 1) > bestv)    // in right sub-tree
 	{
 		x[indexx[i]] = 0;  
-		Backtrack(i + 1, 0);
+		Backtrack(i + 1);
 	}
 }
 
@@ -127,6 +127,6 @@ void Knap::printResult(){
 
 void Knap::knapsack()
 {
-	Backtrack(0, 0);
+	Backtrack(0);
 }
 #endif
