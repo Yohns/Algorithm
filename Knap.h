@@ -12,6 +12,7 @@ public:
 		v = vv;
 		w = ww;
 		x = new int[n + 1];
+		xx = new int[n + 1];
 		indexx = new int[n +1];
 		cv = 0;
 		cw = 0;
@@ -33,8 +34,9 @@ private:
 	int cw;    // current weight
 	int cv;    // current value
 	int bestv; // current best value
-	int * x;	// trace back
+	int * x;	// recursion trace back
 	int * indexx;	// index
+	int * xx;		// trace back
 };
 // sort Goods by increase order
 void Knap::sortGoods(int * v, int * w, int n)
@@ -57,7 +59,7 @@ void Knap::sortGoods(int * v, int * w, int n)
 			w[i] = w[index];
 			w[index] = temp;
 			temp = indexx[index];
-			indexx[index] = i;
+			indexx[index] = indexx[i];
 			indexx[i] = temp;
 		}
 	}
@@ -97,8 +99,13 @@ void Knap::Backtrack(int i)
 	if(i >= n)   // reach leave
 	{
 		//bestv = cv;
-		if(bestv < cv)
+		if(bestv < cv) {
 			bestv = cv;
+			for(int i = 0; i < n; i++)
+			{
+				xx[i] = x[i];
+			}
+		}
 		return;
 	}
 	if(cw + w[i] <= c)  // in left sub-tree
@@ -119,9 +126,14 @@ void Knap::Backtrack(int i)
 
 void Knap::printResult(){
 	cout << bestv << endl;
+	int * tempx = new int[n + 1];
 	for(int i = 0; i < n; i++){  
+		tempx[indexx[i]] = xx[i];
+	} 
+	for(int i = 0; i < n; i++)
+	{
 		cout << x[i] << " ";
-	}  
+	}
 	cout << endl;  
 }  
 
